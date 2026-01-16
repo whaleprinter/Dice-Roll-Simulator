@@ -1,3 +1,12 @@
+/*
+Dice roll question posed by Conrad Qu before going to bet. This program calculates the payoff for various numbers of rolls and provides the average and maximum payoffs. 
+To run: ./DiceRoll <Step Size> <Max Rolls> 
+Use "-p" flag to print every outcome to the terminal
+
+Roshan Sundaram
+1/16/2026
+*/
+
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
