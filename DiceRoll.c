@@ -3,11 +3,13 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <time.h>
+
 
 int updateRoll(int currentTotal, int newRolls) {
     for (int i = 0; i < newRolls; i++) {
         int die = (rand() % 6) + 1;
-        
+
         currentTotal += die;
 
         int r = (int)sqrt(currentTotal);
@@ -32,18 +34,22 @@ int main(int argc, char *argv[]) {
     int i = 0;
     int total = 0;
     int arraySum = 0;
+    int maxPayoff = 0;
 
+    clock_t beginTime = clock();
     for (int rolls = 0; rolls < maxRolls; rolls += stepSize) {
         
         trials[i] = rolls;
         total = updateRoll(total, stepSize); 
         payoffs[i] = total;
         arraySum += payoffs[i];
-
+        if (total >= maxPayoff) {
+            maxPayoff = total;
+        }
         i++;
-
-
     }
+
+    clock_t endTime = clock();
 
     // Use flag -p to print every outcome
     if (argc > 3 && strcmp(argv[3], "-p") == 0) {
@@ -52,9 +58,13 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    
     float average = arraySum / numTrials;
     printf("Average payoff: %f \n", average);
+    printf("Maximum payoff: %d \n", maxPayoff);
+    printf("Elapsed: %f seconds\n", (double)(endTime - beginTime) / CLOCKS_PER_SEC);
     
+
 
     FILE *file;
     char filename[50];
