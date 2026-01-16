@@ -4,25 +4,18 @@
 #include <math.h>
 #include <string.h>
 
+int updateRoll(int currentTotal, int newRolls) {
+    for (int i = 0; i < newRolls; i++) {
+        int die = (rand() % 6) + 1;
+        
+        currentTotal += die;
 
-int diceRoll(int n) {
-    int totalRoll = 0;
-    
-
-    for (int i = 0; i < n; i++) {
-        int die_roll = (rand() % 6) + 1;
-        totalRoll += die_roll;
-        double sqrt_val = sqrt(totalRoll);
-
-        int int_sqrt = (int)sqrt_val;
-
-        if (int_sqrt * int_sqrt == totalRoll) {
-            totalRoll = 0;
-        } 
+        int r = (int)sqrt(currentTotal);
+        if (r * r == currentTotal) {
+            currentTotal = 0;
+        }
     }
-    return totalRoll;
-    
-
+    return currentTotal;
 }
 
 int main(int argc, char *argv[]) {
@@ -37,12 +30,14 @@ int main(int argc, char *argv[]) {
     int *payoffs = (int *)malloc(numTrials * sizeof(int)); 
 
     int i = 0;
+    int total = 0;
     int arraySum = 0;
 
     for (int rolls = 0; rolls < maxRolls; rolls += stepSize) {
         
         trials[i] = rolls;
-        payoffs[i] = diceRoll(rolls);
+        total = updateRoll(total, stepSize); 
+        payoffs[i] = total;
         arraySum += payoffs[i];
 
         i++;
